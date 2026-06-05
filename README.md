@@ -1,10 +1,10 @@
-# 🎓 Student Performance Predictor
+# Student Performance Predictor
 
 An AI-powered full-stack web application that predicts a student's academic performance score (0–100) using a trained Random Forest model served via Python Flask.
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 ML_Project/
@@ -36,7 +36,7 @@ ML_Project/
 
 ---
 
-## 🚀 Quick Start (Local)
+## Quick Start (Local)
 
 ### 1 — Set up Python environment
 
@@ -77,7 +77,7 @@ Then visit **http://localhost:3000**
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### `POST /predict`
 
@@ -114,7 +114,7 @@ Returns a sample autofill payload.
 
 ---
 
-## 📊 Model Details
+## Model Details
 
 | Property | Value |
 |---|---|
@@ -138,7 +138,7 @@ Returns a sample autofill payload.
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 ### Full Stack → Vercel (Zero Config)
 
@@ -152,15 +152,15 @@ The project is pre-configured to run both the HTML/JS frontend and the Flask ML 
 
 ---
 
-## ✨ Features
+## Features
 
-- 🌙 Dark / Light mode toggle (persists across sessions)
-- ⚡ Sample input autofill button
-- 🎚️ Interactive sliders, star ratings, and toggle switches
-- 💬 Hover tooltips for every input field
-- 📈 Feature importance horizontal bar chart
-- 🕸️ Radar chart of student profile
-- 🎯 Animated score ring with category badge
-- 📱 Fully responsive (mobile + desktop)
-- ✅ Client-side input validation with error messages
-- 🔄 Loading spinner during prediction
+- Dark / Light mode toggle (persists across sessions)
+- Sample input autofill button
+- Interactive sliders, star ratings, and toggle switches
+- Hover tooltips for every input field
+- Feature importance horizontal bar chart
+- Radar chart of student profile
+- Animated score ring with category badge
+- Fully responsive (mobile + desktop)
+- Client-side input validation with error messages
+- Loading spinner during prediction
