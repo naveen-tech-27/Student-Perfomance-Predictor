@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About the Student Performance Predictor — learn about the dataset, model, and technology stack." />
+  <title>About — Student Performance Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">📊</span>
+        <span class="brand-text">PerfPredictor</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link" id="nav-predict">Predictor</a>
+        <a href="about.html" class="nav-link active" id="nav-about">About</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero hero-sm">
+    <div class="hero-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🔬 Project Details</div>
+      <h1 class="hero-title">About <span class="gradient-text">This Project</span></h1>
+      <p class="hero-subtitle">An end-to-end ML system for predicting student academic outcomes.</p>
+    </div>
+  </section>
+
+  <main class="main-container about-container">
+
+    <!-- Overview Cards -->
+    <div class="about-stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🧠</div>
+        <div class="stat-value">Random Forest</div>
+        <div class="stat-label">ML Algorithm</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value">8</div>
+        <div class="stat-label">Input Features</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value">0–100</div>
+        <div class="stat-label">Score Range</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-value">&lt; 100ms</div>
+        <div class="stat-label">Prediction Time</div>
+      </div>
+    </div>
+
+    <!-- About Cards -->
+    <div class="about-grid">
+
+      <div class="card about-card">
+        <div class="about-card-icon">📖</div>
+        <h2 class="about-card-title">Project Overview</h2>
+        <p>Student Performance Predictor is an AI-powered web application that estimates a student's academic performance score (0–100) based on key personal and behavioral factors.</p>
+        <p>The system uses a <strong>Random Forest Regressor</strong> trained on student behavior data inspired by the UCI Student Performance Dataset. The model is served via a <strong>Python Flask API</strong> and displayed in a responsive, modern web interface.</p>
+      </div>
+
+      <div class="card about-card">
+        <div class="about-card-icon">🗂️</div>
+        <h2 class="about-card-title">Dataset & Features</h2>
+        <p>The model uses 8 carefully selected features that have the strongest influence on student outcomes:</p>
+        <ul class="feature-list">
+          <li><strong>Study Time</strong> — Weekly hours dedicated to studying</li>
+          <li><strong>Past Failures</strong> — Number of previous class failures</li>
+          <li><strong>School Absences</strong> — Days absent during the year</li>
+          <li><strong>Internet Access</strong> — Home internet availability</li>
+          <li><strong>Free Time</strong> — After-school free time (1–5 scale)</li>
+          <li><strong>Health Status</strong> — Self-reported health (1–5 scale)</li>
+          <li><strong>Family Relations</strong> — Family relationship quality (1–5 scale)</li>
+          <li><strong>Paid Classes</strong> — Enrollment in extra paid tutoring</li>
+        </ul>
+      </div>
+
+      <div class="card about-card">
+        <div class="about-card-icon">🤖</div>
+        <h2 class="about-card-title">Machine Learning Model</h2>
+        <p>The prediction pipeline consists of:</p>
+        <ol class="tech-list">
+          <li><strong>Feature Encoding</strong> — Categorical values (Yes/No, ranges) are numerically encoded</li>
+          <li><strong>Standard Scaling</strong> — All features normalized using <code>StandardScaler</code></li>
+          <li><strong>Random Forest Regressor</strong> — 200 trees, max depth 10, trained on 2000 synthetic samples</li>
+          <li><strong>Output</strong> — Score (0–100) + performance category + feature importances</li>
+        </ol>
+        <div class="model-metrics">
+          <div class="metric"><span class="metric-label">Algorithm</span><span class="metric-val">Random Forest</span></div>
+          <div class="metric"><span class="metric-label">Trees</span><span class="metric-val">200</span></div>
+          <div class="metric"><span class="metric-label">Training Samples</span><span class="metric-val">1,600</span></div>
+          <div class="metric"><span class="metric-label">Test Samples</span><span class="metric-val">400</span></div>
+        </div>
+      </div>
+
+      <div class="card about-card">
+        <div class="about-card-icon">🛠️</div>
+        <h2 class="about-card-title">Technology Stack</h2>
+        <div class="tech-stack">
+          <div class="tech-item">
+            <span class="tech-badge backend">Backend</span>
+            <span>Python 3.12 · Flask · scikit-learn</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge frontend">Frontend</span>
+            <span>HTML5 · CSS3 · Vanilla JS · Chart.js</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge ml">ML</span>
+            <span>RandomForestRegressor · StandardScaler · pickle</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge deploy">Deploy</span>
+            <span>Render (API) · Netlify / GitHub Pages (UI)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card about-card about-card-wide">
+        <div class="about-card-icon">⚠️</div>
+        <h2 class="about-card-title">Important Notes</h2>
+        <div class="notes-grid">
+          <div class="note-item">
+            <strong>Synthetic Data</strong>
+            <p>The model was trained on synthetically generated data designed to mimic real student patterns. Results are for educational/demonstration purposes.</p>
+          </div>
+          <div class="note-item">
+            <strong>Not a Replacement</strong>
+            <p>This tool is not a substitute for professional academic counseling. Use it as a motivational aid, not a definitive assessment.</p>
+          </div>
+          <div class="note-item">
+            <strong>Privacy</strong>
+            <p>No student data is stored. All predictions are stateless — your inputs are processed and immediately discarded by the server.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Feature Importance Chart (static from model) -->
+    <div class="card chart-card" style="margin-top:0">
+      <div class="card-header">
+        <h2 class="card-title">Model Feature Importances</h2>
+        <span class="card-subtitle">Relative influence of each feature on predictions</span>
+      </div>
+      <div class="chart-wrapper" style="max-height:320px">
+        <canvas id="aboutFeatureChart" aria-label="Feature importance chart"></canvas>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Built with ❤️ using Python Flask + Random Forest ML • <a href="index.html">Try the Predictor</a></p>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/about.js"></script>
+</body>
+</html>

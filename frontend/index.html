@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Student Performance Predictor — AI-powered tool to predict academic performance based on study habits and personal factors." />
+  <title>Student Performance Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">📊</span>
+        <span class="brand-text">PerfPredictor</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active" id="nav-predict">Predictor</a>
+        <a href="about.html" class="nav-link" id="nav-about">About</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ AI-Powered Academic Insights</div>
+      <h1 class="hero-title">Predict Student <span class="gradient-text">Performance</span></h1>
+      <p class="hero-subtitle">Fill in the form below and let our machine learning model estimate your academic performance score.</p>
+    </div>
+  </section>
+
+  <!-- ── Main Content ── -->
+  <main class="main-container">
+    <div class="grid-layout">
+
+      <!-- ── Form Card ── -->
+      <div class="card form-card">
+        <div class="card-header">
+          <h2 class="card-title">Student Profile</h2>
+          <button class="btn btn-secondary btn-sm" id="autofillBtn" title="Load sample values">
+            ⚡ Sample Input
+          </button>
+        </div>
+
+        <form id="predictForm" novalidate>
+
+          <!-- Study Time -->
+          <div class="form-group" id="fg-studytime">
+            <label class="form-label" for="studytime">
+              Weekly Study Time
+              <span class="tooltip-icon" data-tip="How many hours per week do you dedicate to studying? More study time generally correlates with better academic outcomes.">?</span>
+            </label>
+            <div class="select-wrapper">
+              <select id="studytime" name="studytime" class="form-control">
+                <option value="">— Select study time —</option>
+                <option value="less_than_2">Less than 2 hours</option>
+                <option value="2_to_5">2 – 5 hours</option>
+                <option value="5_to_10">5 – 10 hours</option>
+                <option value="more_than_10">More than 10 hours</option>
+              </select>
+            </div>
+            <span class="form-error" id="err-studytime"></span>
+          </div>
+
+          <!-- Failures -->
+          <div class="form-group" id="fg-failures">
+            <label class="form-label" for="failures">
+              Past Class Failures
+              <span class="tooltip-icon" data-tip="Number of past class failures. This is one of the strongest predictors of future performance.">?</span>
+            </label>
+            <div class="slider-container">
+              <input type="range" id="failures" name="failures" min="0" max="4" step="1" value="0" class="slider" />
+              <div class="slider-labels">
+                <span>0</span><span>1</span><span>2</span><span>3</span><span>4+</span>
+              </div>
+              <div class="slider-value-badge" id="failures-val">0</div>
+            </div>
+            <span class="form-error" id="err-failures"></span>
+          </div>
+
+          <!-- Absences -->
+          <div class="form-group" id="fg-absences">
+            <label class="form-label" for="absences">
+              School Absences
+              <span class="tooltip-icon" data-tip="Total number of days absent from school this year. Frequent absences can significantly impact performance.">?</span>
+            </label>
+            <div class="slider-container">
+              <input type="range" id="absences" name="absences" min="0" max="40" step="1" value="0" class="slider" />
+              <div class="slider-labels">
+                <span>0</span><span>10</span><span>20</span><span>30</span><span>40</span>
+              </div>
+              <div class="slider-value-badge" id="absences-val">0</div>
+            </div>
+            <span class="form-error" id="err-absences"></span>
+          </div>
+
+          <!-- Free Time -->
+          <div class="form-group" id="fg-freetime">
+            <label class="form-label" for="freetime">
+              Free Time After School
+              <span class="tooltip-icon" data-tip="How much free time do you have after school? Scale 1 (very low) to 5 (very high).">?</span>
+            </label>
+            <div class="star-rating" id="freetime-stars" data-field="freetime">
+              <button type="button" class="star" data-val="1">★</button>
+              <button type="button" class="star" data-val="2">★</button>
+              <button type="button" class="star" data-val="3">★</button>
+              <button type="button" class="star" data-val="4">★</button>
+              <button type="button" class="star" data-val="5">★</button>
+              <span class="star-label" id="freetime-label">3 / 5</span>
+            </div>
+            <input type="hidden" id="freetime" name="freetime" value="3" />
+            <span class="form-error" id="err-freetime"></span>
+          </div>
+
+          <!-- Health -->
+          <div class="form-group" id="fg-health">
+            <label class="form-label" for="health">
+              Health Status
+              <span class="tooltip-icon" data-tip="Current health status. Scale 1 (very bad) to 5 (very good). Better health enables better study habits.">?</span>
+            </label>
+            <div class="star-rating" id="health-stars" data-field="health">
+              <button type="button" class="star health-star" data-val="1">♥</button>
+              <button type="button" class="star health-star" data-val="2">♥</button>
+              <button type="button" class="star health-star" data-val="3">♥</button>
+              <button type="button" class="star health-star" data-val="4">♥</button>
+              <button type="button" class="star health-star" data-val="5">♥</button>
+              <span class="star-label" id="health-label">3 / 5</span>
+            </div>
+            <input type="hidden" id="health" name="health" value="3" />
+            <span class="form-error" id="err-health"></span>
+          </div>
+
+          <!-- Family Relationship -->
+          <div class="form-group" id="fg-famrel">
+            <label class="form-label" for="famrel">
+              Family Relationship Quality
+              <span class="tooltip-icon" data-tip="Quality of family relationships. Scale 1 (very bad) to 5 (excellent). Strong family support boosts academic performance.">?</span>
+            </label>
+            <div class="star-rating" id="famrel-stars" data-field="famrel">
+              <button type="button" class="star famrel-star" data-val="1">◆</button>
+              <button type="button" class="star famrel-star" data-val="2">◆</button>
+              <button type="button" class="star famrel-star" data-val="3">◆</button>
+              <button type="button" class="star famrel-star" data-val="4">◆</button>
+              <button type="button" class="star famrel-star" data-val="5">◆</button>
+              <span class="star-label" id="famrel-label">3 / 5</span>
+            </div>
+            <input type="hidden" id="famrel" name="famrel" value="3" />
+            <span class="form-error" id="err-famrel"></span>
+          </div>
+
+          <!-- Internet + Paid (side by side) -->
+          <div class="form-row">
+            <div class="form-group" id="fg-internet">
+              <label class="form-label">
+                Internet Access
+                <span class="tooltip-icon" data-tip="Do you have internet access at home? Having internet access opens additional learning resources.">?</span>
+              </label>
+              <label class="toggle-switch" for="internet">
+                <input type="checkbox" id="internet" name="internet" checked />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-label" id="internet-label">Yes</span>
+              </label>
+            </div>
+
+            <div class="form-group" id="fg-paid">
+              <label class="form-label">
+                Extra Paid Classes
+                <span class="tooltip-icon" data-tip="Are you enrolled in extra paid tutoring classes? Additional instruction can significantly improve outcomes.">?</span>
+              </label>
+              <label class="toggle-switch" for="paid">
+                <input type="checkbox" id="paid" name="paid" />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-label" id="paid-label">No</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+            <span class="btn-text">🔮 Predict Performance</span>
+            <span class="btn-loader hidden" id="btnLoader">
+              <span class="spinner"></span> Analyzing...
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <!-- ── Results Panel ── -->
+      <div class="results-panel">
+
+        <!-- Score Card -->
+        <div class="card result-card hidden" id="resultCard">
+          <div class="result-header">
+            <h2 class="card-title">Prediction Result</h2>
+            <span class="category-badge" id="categoryBadge">—</span>
+          </div>
+
+          <div class="score-display">
+            <div class="score-ring-wrapper">
+              <svg class="score-ring" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle class="ring-bg" cx="60" cy="60" r="50" />
+                <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="50"
+                  stroke-dasharray="314" stroke-dashoffset="314" />
+              </svg>
+              <div class="score-inner">
+                <span class="score-emoji" id="scoreEmoji">🌟</span>
+                <span class="score-number" id="scoreNumber">—</span>
+                <span class="score-label">/ 100</span>
+              </div>
+            </div>
+
+            <div class="score-details">
+              <div class="detail-row">
+                <span class="detail-label">Performance</span>
+                <span class="detail-value" id="perfLabel">—</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Score</span>
+                <span class="detail-value" id="scoreDetail">—</span>
+              </div>
+              <div class="progress-bar-wrapper">
+                <div class="progress-bar" id="progressBar" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="performance-bands">
+            <div class="band band-excellent">
+              <span>🌟 Excellent</span><span>80–100</span>
+            </div>
+            <div class="band band-good">
+              <span>👍 Good</span><span>65–79</span>
+            </div>
+            <div class="band band-average">
+              <span>📊 Average</span><span>50–64</span>
+            </div>
+            <div class="band band-poor">
+              <span>⚠️ Poor</span><span>0–49</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Card -->
+        <div class="card chart-card hidden" id="chartCard">
+          <div class="card-header">
+            <h2 class="card-title">Feature Importance</h2>
+            <span class="card-subtitle">What drives the prediction</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="featureChart" aria-label="Feature importance bar chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Radar Chart -->
+        <div class="card chart-card hidden" id="radarCard">
+          <div class="card-header">
+            <h2 class="card-title">Profile Overview</h2>
+            <span class="card-subtitle">Your input at a glance</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="radarChart" aria-label="Radar chart of student profile"></canvas>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="card empty-state" id="emptyState">
+          <div class="empty-icon">🎓</div>
+          <h3>Ready to predict</h3>
+          <p>Fill in the form and click <strong>Predict Performance</strong> to see your results and personalized charts here.</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Tooltip Popup ── -->
+  <div class="tooltip-popup" id="tooltipPopup"></div>
+
+  <!-- ── Error Toast ── -->
+  <div class="toast toast-error hidden" id="errorToast">
+    <span class="toast-icon">❌</span>
+    <span class="toast-msg" id="toastMsg"></span>
+    <button class="toast-close" id="toastClose">✕</button>
+  </div>
+
+  <footer class="footer">
+    <p>Built with ❤️ using Python Flask + Random Forest ML • <a href="about.html">About Project</a></p>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/tooltip.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

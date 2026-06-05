@@ -1,0 +1,10 @@
+{
+  "studytime": 0.3096,
+  "failures": 0.454,
+  "absences": 0.1094,
+  "internet": 0.0088,
+  "freetime": 0.0382,
+  "health": 0.0386,
+  "famrel": 0.0372,
+  "paid": 0.0042
+}
