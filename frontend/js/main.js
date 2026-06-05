@@ -1,5 +1,5 @@
 // main.js — Predictor page logic
-const API_BASE = 'http://localhost:5000';
+const API_BASE = window.location.origin + '/api';
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const form        = document.getElementById('predictForm');

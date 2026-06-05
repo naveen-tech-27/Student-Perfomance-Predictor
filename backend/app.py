@@ -119,11 +119,13 @@ def parse_bool(value) -> int:
 
 # ─── Routes ───────────────────────────────────────────────────────────────────
 @app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"status": "ok", "model_loaded": model is not None})
 
 
 @app.route("/predict", methods=["POST"])
+@app.route("/api/predict", methods=["POST"])
 def predict():
     if model is None or scaler is None:
         return jsonify({"error": "Model not loaded. Run train_model.py first."}), 503
@@ -171,6 +173,7 @@ def predict():
 
 
 @app.route("/sample", methods=["GET"])
+@app.route("/api/sample", methods=["GET"])
 def sample():
     """Return sample input for autofill."""
     return jsonify({
