@@ -8,6 +8,10 @@
         "maxLambdaSize": "15mb",
         "includeFiles": ["backend/**", "model/**"]
       }
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
