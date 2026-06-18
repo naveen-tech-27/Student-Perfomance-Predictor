@@ -33,7 +33,7 @@ try:
     with open(os.path.join(MODEL_DIR, "feature_importances.json")) as f:
         feature_importances = json.load(f)
     logger.info("[OK] Model artifacts loaded successfully.")
-except FileNotFoundError as e:
+except Exception as e:
     logger.error(f"[ERROR] Could not load model artifacts: {e}")
     model = scaler = None
     feature_importances = {}
