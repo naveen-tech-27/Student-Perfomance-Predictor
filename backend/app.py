@@ -23,7 +23,24 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ─── Load Model Artifacts ─────────────────────────────────────────────────────
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "model")
+def _find_model_dir():
+    """Try multiple candidate paths to locate the model directory."""
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "model"),           # local dev
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "model"),  # abs
+        os.path.join(os.getcwd(), "model"),                               # cwd-based
+        "/var/task/model",                                                 # Vercel lambda
+    ]
+    for path in candidates:
+        resolved = os.path.normpath(path)
+        if os.path.isdir(resolved) and os.path.isfile(os.path.join(resolved, "model.pkl")):
+            logger.info(f"[OK] Found model dir at: {resolved}")
+            return resolved
+    logger.error(f"[ERROR] Model dir not found. Tried: {[os.path.normpath(c) for c in candidates]}")
+    return os.path.normpath(candidates[0])
+
+MODEL_DIR = _find_model_dir()
+_load_error = None
 
 try:
     with open(os.path.join(MODEL_DIR, "model.pkl"), "rb") as f:
@@ -34,6 +51,7 @@ try:
         feature_importances = json.load(f)
     logger.info("[OK] Model artifacts loaded successfully.")
 except Exception as e:
+    _load_error = str(e)
     logger.error(f"[ERROR] Could not load model artifacts: {e}")
     model = scaler = None
     feature_importances = {}
@@ -121,7 +139,20 @@ def parse_bool(value) -> int:
 @app.route("/health", methods=["GET"])
 @app.route("/api/health", methods=["GET"])
 def health():
-    return jsonify({"status": "ok", "model_loaded": model is not None})
+    diag = {
+        "status": "ok",
+        "model_loaded": model is not None,
+        "model_dir": MODEL_DIR,
+        "cwd": os.getcwd(),
+        "app_file": os.path.abspath(__file__),
+        "load_error": _load_error,
+    }
+    # List files in model dir if it exists
+    try:
+        diag["model_dir_contents"] = os.listdir(MODEL_DIR)
+    except Exception as e:
+        diag["model_dir_contents"] = str(e)
+    return jsonify(diag)
 
 
 @app.route("/predict", methods=["POST"])
